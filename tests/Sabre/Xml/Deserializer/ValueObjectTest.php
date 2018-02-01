@@ -11,28 +11,28 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
 
         $input = <<<XML
 <?xml version="1.0"?>
-<foo xmlns="urn:foo">
+<person xmlns="urn:person" sex="male">
    <firstName>Harry</firstName>
    <lastName>Turtle</lastName>
-</foo>
+</person>
 XML;
 
         $reader = new Reader();
         $reader->xml($input);
         $reader->elementMap = [
-            '{urn:foo}foo' => function(Reader $reader) {
-                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\TestVo', 'urn:foo');
+            '{urn:person}person' => function(Reader $reader) {
+                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\PersonVo', 'urn:person');
             }
         ];
 
         $output = $reader->parse();
 
-        $vo = new TestVo();
+        $vo = new PersonVo();
         $vo->firstName = 'Harry';
         $vo->lastName = 'Turtle';
 
         $expected = [
-            'name'       => '{urn:foo}foo',
+            'name'       => '{urn:person}person',
             'value'      => $vo,
             'attributes' => []
         ];
@@ -59,13 +59,13 @@ XML;
         $reader->xml($input);
         $reader->elementMap = [
             '{urn:foo}foo' => function(Reader $reader) {
-                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\TestVo', 'urn:foo');
+                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\PersonVo', 'urn:foo');
             }
         ];
 
         $output = $reader->parse();
 
-        $vo = new TestVo();
+        $vo = new PersonVo();
         $vo->firstName = 'Harry';
         $vo->lastName = 'Turtle';
 
@@ -98,13 +98,13 @@ XML;
         $reader->xml($input);
         $reader->elementMap = [
             '{urn:foo}foo' => function(Reader $reader) {
-                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\TestVo', 'urn:foo');
+                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\PersonVo', 'urn:foo');
             }
         ];
 
         $output = $reader->parse();
 
-        $vo = new TestVo();
+        $vo = new PersonVo();
         $vo->firstName = 'Harry';
         $vo->lastName = 'Turtle';
         $vo->link = [
@@ -136,13 +136,13 @@ XML;
         $reader->xml($input);
         $reader->elementMap = [
             '{urn:foo}foo' => function(Reader $reader) {
-                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\TestVo', 'urn:foo');
+                return valueObject($reader, 'Sabre\\Xml\\Deserializer\\PersonVo', 'urn:foo');
             }
         ];
 
         $output = $reader->parse();
 
-        $vo = new TestVo();
+        $vo = new PersonVo();
 
         $expected = [
             'name'       => '{urn:foo}foo',
@@ -159,7 +159,7 @@ XML;
 
 }
 
-class TestVo {
+class PersonVo {
 
     public $firstName;
     public $lastName;
